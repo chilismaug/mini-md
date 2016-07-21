@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div id="content"></div>
+ 		
+		<script>
+		var marked = require('marked')
+		var ipc = require('electron').ipcRenderer
+			ipc.on('file-open', function(event, fPath, filename, filedata) 
+			{
+				document.getElementById('content').innerHTML = marked(filedata)  ;  	 
+			})
+
+		</script>	
+	</body>
+</html>
