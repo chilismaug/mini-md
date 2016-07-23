@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 	<body>
-		<div id="content"></div>
- 		
-		<script>
-		var marked = require('marked')
-		var ipc = require('electron').ipcRenderer
-			ipc.on('file-open', function(event, fPath, filename, filedata) 
-			{
-				document.getElementById('content').innerHTML = marked(filedata)  ;  	 
-			})
+		<div id="content">This is a markdown toy that uses [marked](https://www.npmjs.com/package/marked) to view a file. </div>
+ 		<script>
+			require('./kyles-custom-menu.js')
+			var marked = require('marked')
+			var ipc = require('electron').ipcRenderer
 
-		</script>	
+				ipc.on('file-open', function(event, fPath, filename, filedata) 
+				{
+					document.getElementById('content').innerHTML = marked(filedata)  ;  	 
+				})
+		</script>			    
 	</body>
 </html>

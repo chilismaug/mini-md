@@ -3,12 +3,15 @@ const electron = require('electron')
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
+
 const fs = require('fs');
-var dialog = require('dialog') 
-var path = require('path')
-var defaultMenu = require('./def-menu-main')
-var Menu = require('menu')
+const dialog = require('dialog') 
+const path = require('path')
+
 const {ipcMain}  = electron;
+
+require('crash-reporter').start
+ console.log('in main.js' )
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -54,40 +57,6 @@ app.on('activate', function () {
     createWindow()
   }
 })
+ 
 
-var OpenFile = function() { 
- dialog.showOpenDialog(mainWindow, {
-  filters: [{name: 'Markdown', extensions: ['md', 'markdown']}],
-  properties: ['openFile']
- }, function(paths) {
-  if (!paths) return false; 
-  var fPath = paths[0];
-  var fName = path.basename(fPath);
-  var fData = fs.readFileSync(fPath, 'utf8'); 
-		 
-  mainWindow.webContents.send('file-open', fPath, fName, fData);
- 	
- })
-}
-  
-var SendEvent = function(name) {
- return function() {mainWindow.webContents.send(name);};
-};
 
-  // Get template for default menu 
-var menu = defaultMenu()
-
-  // Add my very own custom FILE menu 
-      
-  menu.splice(0, 0, {
-    label: 'File',
-    submenu: [
-      {
-        label: 'Open',
-		accelerator: "CmdOCtrl+O",
-        click: OpenFile
-      },
-    ]
-  })
-  // Set top-level application menu, using modified template 
-  Menu.setApplicationMenu(Menu.buildFromTemplate(menu));
