@@ -1,45 +1,9 @@
- 
-var remote = require('remote')
-var ipc = require('electron').ipcRenderer
-var Menu = remote.require('menu')
-const dialog = remote.dialog
-const path = remote.path
-const fs = remote.fs
-const mainWindow = remote.mainWindow
+const remote = require('remote')
+const ipc = require('electron').ipcRenderer
+const Menu = remote.require('menu')
+const win = remote.win
 
- console.log('in kyles-custom-menu' )
-
-
-var OpenFile = function() { 
- console.log('beginning of OpenFile declaration , before open dialog' )
-
- dialog.showOpenDialog( mainWindow, 
- {
-  filters: [
-    {name: 'Markdown', extensions: ['md', 'markdown']}
-  ],
-    properties: ['openFile']
- }, 
- function(paths) {
-  if (!paths) return (console.log('nothing n paths'));
-      (console.log('The paths: ' + paths));
-  var fPath = paths[0];
-  var fName = path.basename(fPath);
-  var fData = fs.readFileSync(fPath, 'utf8'); 
- 
-
-    dialog.showMessageBox( mainWindow, {
-      title: 'file open related arg values: ',
-      message:  "fPath: " + fPath + "\n fName: " + fName +	"\n fData: \n" +  fData ,
-      buttons: ["OK"]  
-      })
-
-  mainWindow.webContents.send('file-open', fPath, fName, fData); 
- })
-}
-
- 
-var menu = Menu.buildFromTemplate([
+const menu = Menu.buildFromTemplate([
   {
     label: 'Electron',
     submenu: [
@@ -51,7 +15,9 @@ var menu = Menu.buildFromTemplate([
       }, {
         label: 'Open File',
         accelerator: "Command+O",
-        click: OpenFile
+        click:   function () {
+          ipc.send('open-file-dialog')
+        }
       }, { 
         type: 'separator'
       }, {

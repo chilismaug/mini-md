@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html>
 	<body>
-		<div id="content">This is a markdown toy that uses [marked](https://www.npmjs.com/package/marked) to view a file. </div>
- 		<script>
-			require('./kyles-custom-menu.js')
-			var marked = require('marked')
-			var ipc = require('electron').ipcRenderer
 
-				ipc.on('file-open', function(event, fPath, filename, filedata) 
-				{
-					document.getElementById('content').innerHTML = marked(filedata)  ;  	 
-				})
+		<div id="content">This is a markdown toy that uses [marked](https://www.npmjs.com/package/marked) to view a file. </div>
+
+ 		<script>
+		 	require('./kyles-custom-menu.js')
+	 		// stndard node modules
+			const path = require('path')
+			const fs = require('fs')
+
+			const marked = require('marked')
+			const ipc = require('electron').ipcRenderer
+
+			ipc.on('file-open', function( event, files) {
+			var fPath = files[0];
+			var fName = path.basename(fPath);
+			var fData = fs.readFileSync(fPath, 'utf8'); 					
+	 									
+			document.getElementById('content').innerHTML = marked(fData)  ;  	 
+			})
 		</script>			    
 	</body>
 </html>
