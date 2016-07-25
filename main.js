@@ -2,17 +2,12 @@ const electron = require('electron')
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+const {BrowserWindow}  = electron;
+const {ipcMain}  = electron;
+//plain old node modules
 const dialog = require('dialog') 
 const path = require('path')
 const fs = require('fs')
-const {ipcMain}  = electron;
-
-//require('./kyles-custom-menu-main.js')
-
-require('crash-reporter').start
-
- console.log('in main.js before createWindow' )
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

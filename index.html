@@ -2,7 +2,8 @@
 <html>
 	<body>
 
-		<div id="content">This is a markdown toy that uses [marked](https://www.npmjs.com/package/marked) to view a file. </div>
+		<div id="content">This is a __markdown__ toy that uses [marked](https://www.npmjs.com/package/marked) to view a file. 
+		<br/>To-do: incorporate the newer safer markdown module [markdown-it](https://www.npmjs.com/package/markdown-it).</div>
 
  		<script>
 		 	require('./kyles-custom-menu.js')
@@ -11,14 +12,16 @@
 			const fs = require('fs')
 
 			const marked = require('marked')
+			let defcont = document.getElementById('content').innerHTML
+			document.getElementById('content').innerHTML = marked(defcont)
 			const ipc = require('electron').ipcRenderer
 
 			ipc.on('file-open', function( event, files) {
-			var fPath = files[0];
-			var fName = path.basename(fPath);
-			var fData = fs.readFileSync(fPath, 'utf8'); 					
+			var fPath = files[0]
+			var fName = path.basename(fPath)
+			var fData = fs.readFileSync(fPath, 'utf8')					
 	 									
-			document.getElementById('content').innerHTML = marked(fData)  ;  	 
+			document.getElementById('content').innerHTML = marked(fData)  	 
 			})
 		</script>			    
 	</body>
