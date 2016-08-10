@@ -3,16 +3,14 @@
 	<head>
 		<style type="text/css">
 	</style>
- 
+
 	</head>
 	<body>
 
-		<div id="content">This is a __markdown__ toy that uses [marked](https://www.npmjs.com/package/marked) to view a file. 
+		<div id="content">This is a __markdown__ toy that uses [marked](https://www.npmjs.com/package/marked) to view a file.
 		<br/>To-do: incorporate the newer safer markdown module [markdown-it](https://www.npmjs.com/package/markdown-it).</div>
 
  		<script>
-		 	src="../node_modules/ace-builds/src-min/ace.js" charset="utf-8">
-
 		 	require('./kyles-custom-menu.js')
 	 		// stndard node modules
 			const path = require('path')
@@ -26,10 +24,10 @@
 			ipc.on('file-open', function( event, files) {
 			var fPath = files[0]
 			var fName = path.basename(fPath)
-			var fData = fs.readFileSync(fPath, 'utf8')					
-	 									
-			document.getElementById('content').innerHTML = marked(fData)  	 
+			var fData = fs.readFileSync(fPath, 'utf8')
+
+			document.getElementById('content').innerHTML = marked(fData)
 			})
-		</script>			    
+		</script>
 	</body>
 </html>
